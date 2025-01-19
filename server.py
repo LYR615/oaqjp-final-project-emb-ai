@@ -8,7 +8,11 @@ app = Flask("Emotion Detector")
 def sent_detector():
     text_to_analyse = request.args.get('textToAnalyze')
     response = emotion_detector(text_to_analyse)
-    json_response = json.dumps(response, indent=4, sort_keys=False)  
+
+    if response['dominant_emotion'] is None:
+        return "Invalid input! Try again."
+
+    json_response = json.dumps(response, indent=4, sort_keys=False) 
     return Response(json_response, mimetype='application/json')  
 
 
